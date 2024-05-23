@@ -11,25 +11,25 @@ public class Order {
     @Getter @Setter
     protected String orderId;
     @Getter @Setter
-    protected float price;
+    protected float price = 0.0f;
     @Getter @Setter
     protected float deliveryPrice = 70.0f;
     @Getter @Setter
-    protected float cashback;
+    protected float cashback = 0.0f;
     @Getter @Setter
     protected Client client;
     @Getter @Setter
     protected List<Device> devices = new ArrayList<>();
 
-    public Order(float price, float cashback, float weight, List<Device> cart, Client client){
+    public Order(List<Device> cart, Client client){
         orderId = UUID.randomUUID().toString();
         this.client = client;
         for(var device : cart){
             devices.add(device);
+            this.price += device.getPrice();
+            this.cashback += device.getCashback();
+            this.deliveryPrice += device.getWeight()*100;
         }
-        this.price = price;
-        this.deliveryPrice += weight*100;
-        this.cashback = cashback;
     }
 
     /*protected Order(float price, float cashback, float weight, Device device, Client client){

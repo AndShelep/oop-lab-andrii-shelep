@@ -24,16 +24,13 @@ public class DeviceService implements IDeviceSrvice{
     }
 
     @Override
-    public void addDevice(Device device) {
-        deviceRepository.addDevice(device);
+    public Device addDevice(Device device) {
+        return deviceRepository.addDevice(device);
     }
 
     @Override
-    public void removeDevice(String model) {
-        Device device = deviceRepository.getDevice(model);
-        if (device != null) {
-            deviceRepository.removeDevice(device);
-        }
+    public String removeDevice(String model) {
+        return deviceRepository.removeDevice(model);
     }
 
     @Override

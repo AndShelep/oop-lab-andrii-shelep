@@ -1,6 +1,7 @@
 package org.example.springshop.controllers;
 
 import org.example.springshop.services.DeviceService;
+import org.example.springshop.services.IDeviceSrvice;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,9 +12,9 @@ import org.example.springshop.Tablet;
 @RestController
 @RequestMapping("/devices")
 public class DeviceController {
-    private DeviceService deviceService;
+    private IDeviceSrvice deviceService;
 
-    public DeviceController(DeviceService deviceService) {
+    public DeviceController(IDeviceSrvice deviceService) {
         this.deviceService = deviceService;
     }
 
@@ -28,17 +29,17 @@ public class DeviceController {
     }
 
     @PostMapping("/add/phone")
-    public void addPhone(@RequestBody Phone device) {
-        deviceService.addDevice(device);
+    public Device addPhone(@RequestBody Phone device) {
+        return deviceService.addDevice(device);
     }
 
     @PostMapping("/add/tablet")
-    public void addTablet(@RequestBody Tablet device) {
-        deviceService.addDevice(device);
+    public Device addTablet(@RequestBody Tablet device) {
+        return deviceService.addDevice(device);
     }
 
     @DeleteMapping("/remove/{model}")
-    public void removeDevice(@PathVariable String model) {
-        deviceService.removeDevice(model);
+    public String removeDevice(@PathVariable String model) {
+        return deviceService.removeDevice(model);
     }
 }

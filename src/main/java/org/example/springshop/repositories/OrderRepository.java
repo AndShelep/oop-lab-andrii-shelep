@@ -23,8 +23,9 @@ public class OrderRepository {
         return null;
     }
 
-    public void addOrder(Order order) {
+    public String addOrder(Order order) {
         orders.add(order);
+        return "Order created";
     }
 
     public void cancelOrder(Order order) {

@@ -12,19 +12,22 @@ public class ClientRepository {
     private List<Client> clients = new ArrayList<>();
 
     public ClientRepository() {
-        clients.add(new Client("Andrew", "Shelep", "+380000000000", "shelepovskiy@gmail.com"));
+        clients.add(new Client("12345","Andrew", "Shelep", "+380000000000", "shelepovskiy@gmail.com"));
+        clients.add(new Client("12346","Andrii", "Vilkosh", "+380000002310", "vylka@gmail.com"));
     }
 
     public List<Client> getClients() {
         return clients;
     }
 
-    public void addClient(Client client) {
+    public Client addClient(Client client) {
         this.clients.add(client);
+        return client;
     }
 
-    public void removeClient(Client client) {
+    public String removeClient(Client client) {
         this.clients.remove(client);
+        return "Client removed";
     }
 
     public Client getClient(String clientId) {
@@ -35,12 +38,14 @@ public class ClientRepository {
         return null;
     }
 
-    public void addToCart(Device device, Client client){
+    public String addToCart(Device device, Client client){
         client.addToCart(device);
+        return "Device added to cart";
     }
 
-    public void removeFromCart(Device device, Client client){
+    public String removeFromCart(Device device, Client client){
         client.removeFromCart(device);
+        return "Device removed from cart";
     }
 
     public List<Device> getCart(String clientId){

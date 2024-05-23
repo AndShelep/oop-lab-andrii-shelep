@@ -43,9 +43,9 @@ public class ClientController {
     }
 
     @PostMapping("{clientId}/add_to_cart/{model}")
-    public void addToCart(@PathVariable String clientId, @PathVariable String model) {
+    public String addToCart(@PathVariable String clientId, @PathVariable String model) {
         Device device = deviceService.getDevice(model);
-        clientService.addToCart(device, clientId);
+        return clientService.addToCart(device, clientId);
     }
 
     @DeleteMapping("{clientId}/remove_from_cart/{model}")

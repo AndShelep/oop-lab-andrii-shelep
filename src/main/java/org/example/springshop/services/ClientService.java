@@ -29,33 +29,46 @@ public class ClientService implements IClientService {
     }
 
     @Override
-    public void addClient(Client client) {
-        clientRepository.addClient(client);
+    public Client addClient(Client client) {
+        return clientRepository.addClient(client);
     }
 
     @Override
-    public void deleteClient(String clientId) {
+    public String deleteClient(String clientId) {
         Client client = clientRepository.getClient(clientId);
-        if(client != null) {
-            clientRepository.removeClient(client);
+        if(clientRepository.getClient(clientId) != null) {
+            return clientRepository.removeClient(client);
+        } else {
+            return "Client not found";
         }
     }
 
     @Override
-    public void addToCart(Device device, String clientId) {
+    public String addToCart(Device device, String clientId) {
         Client client = clientRepository.getClient(clientId);
         if(device != null && client != null) {
-            clientRepository.addToCart(device, client);
+            return clientRepository.addToCart(device, client);
+        } else if (device == null && client != null) {
+            return "Device not found";
+        } else if (client == null && device != null) {
+            return "Client not found";
         }
+        return "Device not added to cart";
     }
 
     @Override
-    public void removeFromCart(Device device, String clientId) {
+    public String removeFromCart(Device device, String clientId) {
         Client client = clientRepository.getClient(clientId);
         if(client != null) {
             if(device != null && client.isInCart(device)) {
-                clientRepository.removeFromCart(device, client);
+                return clientRepository.removeFromCart(device, client);
+            } else if (device == null) {
+                return "Device not found";
+            } else {
+                return "Device is not in cart";
             }
+        } else {
+            return "Client not found";
         }
     }
 

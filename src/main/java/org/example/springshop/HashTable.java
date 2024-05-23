@@ -2,6 +2,8 @@ package org.example.springshop;
 
 import java.util.ArrayList;
 
+import static java.lang.Math.abs;
+
 public class HashTable {
     private int capacity = 5;
     protected int size = 0;
@@ -11,8 +13,7 @@ public class HashTable {
         private Node next;
 
         Node(Device device){
-            this.key = device.model;
-            key = key.replace(' ', '-');
+            this.key = device.model.replace(' ', '-');
             this.device = device;
             next = null;
         }
@@ -21,8 +22,7 @@ public class HashTable {
     protected Node[] buckets = new Node[capacity];
 
     public void put(Device device){
-        String key = device.model;
-        key = key.replace(' ', '-');
+        String key = device.model.replace(' ', '-');
         int i = getIndex(hashCode(key));
         Node newNode = new Node(device);
         if(size==capacity){
@@ -43,29 +43,29 @@ public class HashTable {
     }
 
     public Device get(String model){
-        String key = model;
-        key = key.replace(' ', '-');
-        int i = getIndex(hashCode(model));
+        String key = model.replace(' ', '-');
+        int i = getIndex(hashCode(key));
         if(buckets[i]==null){
-            System.out.println("there is no this device");
+            return null;
+            //System.out.println("there is no this device");
         } else {
             Node current = buckets[i];
             while(!current.key.equals(key) && current.next!=null){
                 current = current.next;
             }
             if(!current.key.equals(key)){
-                System.out.println("there is no device with this name");
+                return null;
+                //System.out.println("there is no device with this name");
             } else {
                 current.device.mainDescription();
                 return current.device;
             }
         }
-        return null;
     }
 
-    public void remove(Device device) {
-        String key = device.model.replace(' ', '-');  // Замініть пробіли на дефіси в ключі
-        int index = getIndex(hashCode(key));  // Отримайте індекс для ключа
+    public String remove(String model) {
+        String key = model.replace(' ', '-');
+        int index = getIndex(hashCode(key));
 
         Node current = buckets[index];
         Node previous = null;
@@ -74,21 +74,21 @@ public class HashTable {
             if (current.key.equals(key)) {
                 if (previous == null) {
                     // Вузол, який потрібно видалити, є першим у списку
-                    buckets[index] = current.next;  // Переміщуємо голову на наступний вузол
+                    buckets[index] = current.next;
                 } else {
                     // Вузол знаходиться десь у середині або в кінці
-                    previous.next = current.next;  // Вилучаємо вузол із ланцюжка
+                    previous.next = current.next;
                 }
-                size--;  // Зменшуємо розмір хеш-таблиці
-                System.out.println("Device removed successfully");
-                return;
+                size--;
+                //System.out.println("Device removed successfully");
+                return "Device removed";
             }
-            previous = current;  // Зберігаємо поточний вузол як попередній перед переходом до наступного
+            previous = current;
             current = current.next;
         }
 
-        // Якщо вузол не знайдено після проходження всіх вузлів
-        System.out.println("There is no such device");
+        return "Device not found";
+        //System.out.println("There is no such device");
     }
 
 
@@ -97,12 +97,12 @@ public class HashTable {
         return  index;
     }
 
-    private long hashCode(String model) {
+    public long hashCode(String model) {
         long hash = 0;
         for(int i = 0; i < model.length(); i++){
             hash += hash*31 + model.charAt(i);
         }
-        return hash;
+        return (long) abs(hash);
     }
 
     private void resize(){

@@ -19,8 +19,9 @@ public class Client {
     @Getter @Setter
     protected String email;
     protected ShoppingCart cart;
-    public Client(String name, String surname, String number, String email){
-        this.id = UUID.randomUUID().toString();
+    public Client(String id, String name, String surname, String number, String email){
+        //this.id = UUID.randomUUID().toString();
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.number = number;

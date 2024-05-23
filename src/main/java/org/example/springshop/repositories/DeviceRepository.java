@@ -26,14 +26,16 @@ public class DeviceRepository {
         }
     }
 
-    public void addDevice(Device device) {
+    public Device addDevice(Device device) {
         devices.add(device);
         table.put(device);
+        return device;
     }
 
-    public void removeDevice(Device device) {
+    public String removeDevice(String model) {
+        Device device = table.get(model);
         devices.remove(device);
-        table.remove(device);
+        return table.remove(model);
     }
 
     public Device getDevice(String model) {

@@ -36,11 +36,12 @@ public class OrderController {
     }
 
     @PostMapping("/create/{clientId}")
-    public void createOrder(@PathVariable String clientId) {
+    public String createOrder(@PathVariable String clientId) {
         Client client = clientService.getClient(clientId);
-        if(client != null && !client.showCart().isEmpty()) {
-            orderService.createOrder(client);
+        if(client != null) {
+            return orderService.createOrder(client);
         }
+        return "Error: Client not found";
     }
 
     @DeleteMapping("/cancel/{id}")

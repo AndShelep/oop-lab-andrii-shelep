@@ -27,18 +27,13 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public void createOrder(Client client) {
+    public String createOrder(Client client) {
         List<Device> devices = client.showCart();
-        float price = 0.0f;
-        float cash = 0.0f;
-        float weight = 0.0f;
-        for (Device device : devices) {
-            price += device.getPrice();
-            cash += device.getCashback();
-            weight += device.getWeight();
+        if (!devices.isEmpty()) {
+            Order order = new Order(devices, client);
+            return orderRepository.addOrder(order);
         }
-        Order order = new Order(price, cash, weight, devices, client);
-        orderRepository.addOrder(order);
+        return "There are no devices in carts";
     }
 
     @Override
